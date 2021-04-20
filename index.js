@@ -24,7 +24,7 @@ io.on('connection', socket => {
     socket.on('disconnect', () => {
         console.log('user ' + chatID + ' disconnected');
         socket.leave(chatID);
-        const index = array.indexOf(chatID);
+        const index = users.indexOf(chatID);
             if (index > -1) {
               users.splice(index, 1);
             }
