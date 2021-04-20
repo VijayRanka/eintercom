@@ -17,6 +17,9 @@ io.on('connection', socket => {
     if(!users.includes(chatID))
     users.push(chatID);
 
+
+    console.log(JSON.stringify(users));
+
     //Leave the room if the user closes the socket
     socket.on('disconnect', () => {
         console.log('user ' + chatID + ' disconnected');
@@ -25,6 +28,7 @@ io.on('connection', socket => {
             if (index > -1) {
               users.splice(index, 1);
             }
+
     })
 
     //Send message to only a particular user
@@ -41,7 +45,6 @@ io.on('connection', socket => {
             'receiverChatID': receiverChatID,
         })
     })
-
    
 });
 
