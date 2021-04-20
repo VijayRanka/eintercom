@@ -29,22 +29,27 @@ io.on('connection', socket => {
               users.splice(index, 1);
             }
     console.log(JSON.stringify(users));
-            
+
 
     })
 
     //Send message to only a particular user
     socket.on('send_message', message => {
         receiverChatID = message.receiverChatID
-        senderChatID = message.senderChatID
+        senderID = message.senderID
         content = message.content
-        product_chat_id=message.productChatId
+        recieverID=message.recieverID
         //Send message to only that particular room
+
+        socket.to(receiverChatID).emit('user_present',{
+            'message': content,
+            'senderID': senderID,
+            'status': users.includes(recieverID),
+        });
         
         socket.in(receiverChatID).emit('receive_message', {
             'content': content,
-            'senderChatID': senderChatID,
-            'receiverChatID': receiverChatID,
+            'senderID': senderID,
         })
     })
    
