@@ -28,6 +28,8 @@ io.on('connection', socket => {
             if (index > -1) {
               users.splice(index, 1);
             }
+    console.log(JSON.stringify(users));
+            
 
     })
 
