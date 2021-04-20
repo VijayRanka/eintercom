@@ -13,19 +13,6 @@ io.on('connection', socket => {
     socket.join(chatID)
     console.log("made with socket Id " + chatID);
 
-    var con = mysql.createConnection({
-        host: "localhost",
-        user: "root",
-        password: "",
-        database: "eintercom"
-    });
-
-    con.connect(function(err) {
-        if (err) {
-            throw err;
-        }
-        console.log("Connected!");
-    });
     //Leave the room if the user closes the socket
     socket.on('disconnect', () => {
         console.log('user ' + chatID + ' disconnected');
@@ -39,8 +26,6 @@ io.on('connection', socket => {
         content = message.content
         product_chat_id=message.productChatId
         //Send message to only that particular room
-
-        insertMessage(message,con);
         
         socket.in(receiverChatID).emit('receive_message', {
             'content': content,
@@ -49,14 +34,7 @@ io.on('connection', socket => {
         })
     })
 
-    function insertMessage(meesage,con){
-       var sql = "INSERT INTO `chat`(`sender_id`, `reciever_id`, `prod_id`, `message`) VALUES ('" + senderChatID + "','" + receiverChatID + "','" + product_chat_id + "','" + content + "')";
-            con.query(sql, function(err, result) {
-                if (err) {
-                    throw err;
-                }
-            }); 
-        }
+   
 });
 
 
