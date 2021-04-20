@@ -40,7 +40,7 @@ io.on('connection', socket => {
         content = message.content
         recieverID=message.recieverID
         //Send message to only that particular room
-        console.log('user send ' + message.content + '');
+        console.log('user'+ message.recieverID+' send ' + message.recieverID + '');
 
 
         socket.in(recieverID).emit('user_present',{
@@ -49,7 +49,7 @@ io.on('connection', socket => {
             'status': users.includes(recieverID),
         });
         
-        socket.in(receiverChatID).emit('receive_message', {
+        socket.in(recieverID).emit('receive_message', {
             'content': content,
             'senderID': senderID,
         })
