@@ -41,7 +41,7 @@ io.on('connection', socket => {
         recieverID=message.recieverID
         //Send message to only that particular room
 
-        socket.to(receiverChatID).emit('user_present',{
+        socket.in(receiverChatID).emit('user_present',{
             'message': content,
             'senderID': senderID,
             'status': users.includes(recieverID),
