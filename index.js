@@ -14,20 +14,24 @@ io.on('connection', socket => {
     chatID = socket.handshake.query.chatID
     socket.join(chatID)
     console.log("made with socket Id " + chatID);
+
     if(!users.includes(chatID))
     users.push(chatID);
 
 
     console.log(JSON.stringify(users));
 
+
     //Leave the room if the user closes the socket
     socket.on('disconnect', () => {
         console.log('user ' + chatID + ' disconnected');
         socket.leave(chatID);
-        const index = users.indexOf(chatID);
-            if (index > -1) {
-              users.splice(index, 1);
-            }
+        var index = users.indexOf(chatID);
+        if(index>-1){
+            users.splice(index);
+        }
+
+
     console.log(JSON.stringify(users));
 
 
@@ -39,11 +43,9 @@ io.on('connection', socket => {
         senderID = message.senderID
         content = message.content
         recieverID=message.recieverID
-        //Send message to only that particular room
-        console.log('reciver chat '+ message.receiverChatID +'sender '+ message.senderID +'content '+ message.content +' recieverID ' + message.recieverID + '');
+        //Send message to only that particular chat id user
 
-
-        socket.in(recieverID).emit('user_present',{
+        socket.emit('user_present',{
             'message': content,
             'senderID': senderID,
             'status': users.includes(recieverID),
